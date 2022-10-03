@@ -34,13 +34,13 @@ Show PrintFT where
 
 printFt : List Char -> Maybe PrintFT
 printFt ('f'::'.' :: xs) = let (l,r) = span isDigit xs
-                           in PFTDecim !(parsePositive $ pack l) <$> (printFt xs)
+                           in PFTDecim !(parsePositive $ pack l) <$> (printFt r)
 printFt ('f'::'f'::xs) = PFTFrac <$> printFt xs
 printFt ('f'::xs) = PFTDecim 5 <$> printFt xs
 printFt ('i'::xs) = PFTInt <$> printFt xs 
 printFt ('d'::xs) = PFTInt <$> printFt xs
 printFt ('e'::'.' :: xs) = let (l,r) = span isDigit xs
-                           in PFTSci !(parsePositive $ pack l) <$> (printFt xs)
+                           in PFTSci !(parsePositive $ pack l) <$> (printFt r)
 printFt ('e'::xs) = PFTSci 5 <$> printFt xs
 printFt ('s'::xs) = PFTString <$> printFt xs
 printFt ('u'::xs) = PFTUInt <$> printFt xs

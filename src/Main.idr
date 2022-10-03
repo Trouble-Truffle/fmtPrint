@@ -2,8 +2,8 @@ module Main
 
 import Expansion
 import FormatStr 
-import Lexer
-import Parser
+import Expansion.Lexer
+import Expansion.Parser
 
 import Data.Maybe
 import Data.Either
@@ -53,10 +53,19 @@ typeF (FExpand e f) = expansionToType e -> typeF f
 typeF (FOther _ f) = typeF f
 typeF FEnd = String
 
---formatLn : (s : String) -> IsJust (typeF <$> formatT s)
---formatLn s = ?todo_formatLn
-  --where
-    --format = fromJust $ formatT s
+--formatToFunction : (f : Format) -> String -> (typeF f)
+--formatToFunction (FShow f) s = formatToFunction f . (s++) . show
+--formatToFunction (FPrintF e f) s = formatToFunction f . (s++) . formatStrF e
+--formatToFunction (FExpand _ _) s = ?formatToFunction_missing_case_2
+--formatToFunction (FOther _ _) s = ?formatToFunction_missing_case_3
+--formatToFunction FEnd s = ?formatToFunction_missing_case_4
+
+--formatLn : (s : String) 
+--          -> { auto 0 _ : IsJust (typeF <$> formatT s) } 
+--          -> { auto 0 _ : IsJust (formatT s) } 
+--          -> fromJust (typeF <$> formatT s)
+--formatLn s = let format' = fromJust $ formatT s
+--  in ?todo_formatLn
 
 main : IO ()
 main = do 

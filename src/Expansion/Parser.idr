@@ -7,8 +7,8 @@ import Text.Parser
 
 data Expansion = Substitution String String 
                | GlobalSubstitution String String
-               | Slice Int Int 
-               | Index Int
+               | Slice Nat Nat
+               | Index Nat
                | RemovePrefix String
                | RemoveSuffix String
                | ReplacePrefix String String
@@ -117,10 +117,10 @@ globalSubstitutionP : Parser Expansion
 globalSubstitutionP = GlobalSubstitution <$> (stringP <* slashP) <*> stringP
 
 sliceP : Parser Expansion
-sliceP = Slice <$> ((lexeme numP <|> pure 0) <* lexeme colonP) <*> lexeme numP
+sliceP = Slice <$> ((lexeme (cast <$> numP) <|> pure 0) <* lexeme colonP) <*> lexeme (cast <$> numP)
 
 indexP : Parser Expansion
-indexP = Index <$> (lexeme lBracketP *> lexeme numP <* lexeme rBracketP)
+indexP = Index <$> (lexeme lBracketP *> lexeme (cast <$> numP) <* lexeme rBracketP)
 
 removePrefixP : Parser Expansion 
 removePrefixP = RemovePrefix <$> (hashP *> stringP)
